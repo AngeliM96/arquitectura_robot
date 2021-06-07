@@ -3,6 +3,7 @@ package arquitectura_robot
 class Robot {
     val motor0: Motor = Motor(4)
     val motor1: Motor = Motor(5)
+    val pinOrdenes = false
     val ordenes = mutableListOf<Orden>()
     val botonAvance = OrdenAvanzar(6)
     val botonGiroDerecha = OrdenGirarDerecha(7)
