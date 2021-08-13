@@ -9,7 +9,7 @@ void setup(){
 }
 
 void loop(){
-  if (PULSADOR_ORDENES == LOW) {          
+  if (PIN_INICIO_ORDENES == LOW) {          
     tatubot.escucharOrdenes();
   }
 }

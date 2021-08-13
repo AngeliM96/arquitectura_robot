@@ -1,10 +1,9 @@
 #include <ArduinoQueue.h>
 #include "tatubot.h"
 
-Motor motor0(IN1, IN2);
-Motor motor1(IN4, IN3);
+Motor motor0(IN1, IN2, ENA);
+Motor motor1(IN4, IN3, ENB);
 ArduinoQueue<int> colaOrdenes(CANTIDAD_ORDENES);
-
 
 void Robot::iniciar() {
   pinMode(pinEscucharOrdenes, INPUT_PULLUP);
@@ -13,35 +12,36 @@ void Robot::iniciar() {
   pinMode(pinGiroDerecha, INPUT_PULLUP);
   pinMode(pinGiroIzquierda, INPUT_PULLUP);
   pinMode(pinGiroLoco, INPUT_PULLUP);
+  pinMode(pinFinOrdenes, INPUT_PULLUP);
   motor0.iniciar();
   motor1.iniciar();
 }
 
-void Robot::avanzar(int tiempo) {
-  motor0.adelante();
-  motor1.adelante();
-  delay(tiempo);
+void Robot::avanzar(int velocidad) {
+  motor0.adelante(velocidad);
+  motor1.adelante(velocidad);
+  delay(1000);
   pararRobot();
 }
 
-void Robot::retroceder(int tiempo) {
-  motor0.atras();
-  motor1.atras();
-  delay(tiempo);
+void Robot::retroceder(int velocidad) {
+  motor0.atras(velocidad);
+  motor1.atras(velocidad);
+  delay(1000);
   pararRobot();
 }
 
-void Robot::girarDerecha(int tiempo) {
+void Robot::girarDerecha(int velocidad) {
   motor0.parar();
-  motor1.adelante();
-  delay(tiempo);
+  motor1.adelante(velocidad);
+  delay(1000);
   pararRobot();
 }
 
-void Robot::girarIzquierda(int tiempo) {
-  motor0.adelante();
+void Robot::girarIzquierda(int velocidad) {
+  motor0.adelante(velocidad);
   motor1.parar();
-  delay(tiempo);
+  delay(1000);
   pararRobot();
 }
 
@@ -51,14 +51,14 @@ void Robot::pararRobot() {
 }
 
 void Robot::giroLoco(){
-  motor0.adelante();
-  motor1.atras();
+  motor0.adelante(VELOCIDAD_MOTOR);
+  motor1.atras(VELOCIDAD_MOTOR);
   delay(1000);
   pararRobot();
 }
 
 void Robot::escucharOrdenes() {
-  while(colaOrdenes.itemCount() < CANTIDAD_ORDENES) {
+  while(colaOrdenes.itemCount() < CANTIDAD_ORDENES || pinFinOrdenes == LOW) {
     if (pinAvanzar == LOW) {          
       colaOrdenes.enqueue(1);
     }
@@ -87,16 +87,16 @@ void Robot::ejecutarTodasLasOrdenes() {
 void Robot::ejecutarOrden(byte caso) {
   switch(caso) {
     case 1:
-      avanzar(2000);
+      avanzar(VELOCIDAD_MOTOR);
       break;
     case 2:
-      retroceder(2000);
+      retroceder(VELOCIDAD_MOTOR);
       break;
     case 3:
-      girarDerecha(500);
+      girarDerecha(VELOCIDAD_MOTOR);
       break;
     case 4:
-      girarIzquierda(500);
+      girarIzquierda(VELOCIDAD_MOTOR);
       break;
     case 5:
       giroLoco();
@@ -106,28 +106,31 @@ void Robot::ejecutarOrden(byte caso) {
 
 
 //---------------------------------------------
-Motor::Motor(byte pinAtras, byte pinAdelante) {
+Motor::Motor(byte pinAtras, byte pinAdelante, byte pinVelocidad) {
   this->pinAtras = pinAtras;
   this->pinAdelante = pinAdelante;
+  this->pinVelocidad = pinVelocidad;
 }
 
 void Motor::iniciar() {
   pinMode(pinAtras, OUTPUT);
   pinMode(pinAdelante, OUTPUT);
+  pinMode(pinVelocidad, OUTPUT);
   this->parar();
 }
 
-void Motor::adelante() {
-  analogWrite(pinAtras, 0);
-  analogWrite(pinAdelante, 255);
+void Motor::adelante(int velocidad) {
+  analogWrite(pinVelocidad, velocidad);
+  digitalWrite(pinAtras, LOW);
+  digitalWrite(pinAdelante, HIGH);
 }
 
-void Motor::atras() {
-  analogWrite(pinAdelante, 255);
-  analogWrite(pinAtras, 0);
+void Motor::atras(int velocidad) {
+  analogWrite(pinVelocidad, velocidad);
+  digitalWrite(pinAdelante, HIGH);
+  digitalWrite(pinAtras, LOW);
 }
 
 void Motor::parar() {
-  analogWrite(pinAdelante, 0);
-  analogWrite(pinAtras, 0);
+  analogWrite(pinVelocidad, 0);
 }

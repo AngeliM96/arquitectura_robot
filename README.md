@@ -1,12 +1,17 @@
-# Modelado del robot
-En la carpeta modelado-en-kotlin se puede encontrar un primer modelado de la estructura del programa, por un tema de familiaridad con el lenguaje preferí desarrollarlo de esa manera y luego pasarlo a Arduino y C++. El programa principal del Robot se puede encontrar dentro de la carpeta robotFT
+# Estructura del repositorio
 
-## Los distintos archivos dentro de la carpeta modelado-en-kotlin
-* **Arduino.kt** es un **Singleton** que simula el programa de Arduino, contiene las clásicas funciones **setup()** y **loop()**.
-* **Robot.kt** es todo el modelado principal del funcionamiento del robot
-* **Orden.kt** contiene una interfaz **Orden** que es heredada por las distintas acciones, esto permite modelar los botones que va a tener el robot para ejecutar las distintas ordenes que se quiera hacer.
-* **Motor.kt** permite modelar los dos motores y encargarse de la funcionalidad básica de estos mediante el patrón de diseño **Strategy**.
+## Carpeta robotFT
+En la carpeta robotFT se puede encontrar el desarrollo principal del robot, está dividido en tres archivos:
+* robotFT.ino: El programa central de Arduino, el cual ejecuta la función general.
+* tatubot.h: Archivo de tipo header que contiene el modelado del robot.
+* tatubot.cpp: Archivo de c++ que desarrolla las funciones declaradas en el archivo header.
 
-## Los distintos archivos dentro de la carpeta robotFT
+## Carpeta pruebas_componentes
+En esta carpeta se pueden encontrar distintos sketch para probar los distintos componentes, las carpetas tienen nombres bastante intuitivos, son:
 
-#TODO
+* led_RGB
+* motores
+* matrices
+
+# Pinout de la placa utilizada
+![Arduino Uno Pinout](/assets/arduino_uno_pinout.png)
