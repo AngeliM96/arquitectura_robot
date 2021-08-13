@@ -1,9 +1,11 @@
 #include <ArduinoQueue.h>
 #include "tatubot.h"
+#include "LedControl.h"     
 
 Motor motor0(IN1, IN2, ENA);
 Motor motor1(IN4, IN3, ENB);
 ArduinoQueue<int> colaOrdenes(CANTIDAD_ORDENES);
+LedControl matrizLeds=LedControl(DIN,CLK,CS,MATRICES);
 
 void Robot::iniciar() {
   pinMode(pinEscucharOrdenes, INPUT_PULLUP);
@@ -11,10 +13,15 @@ void Robot::iniciar() {
   pinMode(pinReversa, INPUT_PULLUP);
   pinMode(pinGiroDerecha, INPUT_PULLUP);
   pinMode(pinGiroIzquierda, INPUT_PULLUP);
-  pinMode(pinGiroLoco, INPUT_PULLUP);
   pinMode(pinFinOrdenes, INPUT_PULLUP);
   motor0.iniciar();
   motor1.iniciar();
+  matrizLeds.shutdown(0,false);     
+  matrizLeds.setIntensity(0,4);    
+  matrizLeds.clearDisplay(0);    
+  matrizLeds.shutdown(1,false);    
+  matrizLeds.setIntensity(1,4);    
+  matrizLeds.clearDisplay(1);    
 }
 
 void Robot::avanzar(int velocidad) {
@@ -50,13 +57,6 @@ void Robot::pararRobot() {
   motor1.parar();
 }
 
-void Robot::giroLoco(){
-  motor0.adelante(VELOCIDAD_MOTOR);
-  motor1.atras(VELOCIDAD_MOTOR);
-  delay(1000);
-  pararRobot();
-}
-
 void Robot::escucharOrdenes() {
   while(colaOrdenes.itemCount() < CANTIDAD_ORDENES || pinFinOrdenes == LOW) {
     if (pinAvanzar == LOW) {          
@@ -70,9 +70,6 @@ void Robot::escucharOrdenes() {
     }
     if (pinGiroIzquierda == LOW) {          
       colaOrdenes.enqueue(4);
-    }
-    if (pinGiroLoco == LOW) {          
-      colaOrdenes.enqueue(5);
     }
   }
   ejecutarTodasLasOrdenes();
@@ -98,12 +95,19 @@ void Robot::ejecutarOrden(byte caso) {
     case 4:
       girarIzquierda(VELOCIDAD_MOTOR);
       break;
-    case 5:
-      giroLoco();
-      break;
   }
 }
 
+void Robot::dibujarCarita(byte ojos[8], byte boca[8]) {     
+  for (int i = 0; i < 8; i++)     
+  {
+    matrizLeds.setRow(0,i,ojos[i]);   
+  }
+  for (int i = 0; i < 8; i++)     
+  {
+    matrizLeds.setRow(1,i,boca[i]);    
+  }
+}
 
 //---------------------------------------------
 Motor::Motor(byte pinAtras, byte pinAdelante, byte pinVelocidad) {

@@ -11,7 +11,35 @@ En esta carpeta se pueden encontrar distintos sketch para probar los distintos c
 
 * led_RGB
 * motores
-* matrices
+* matriz
+
+# Librerias utilizadas
+Se están utilizando las librerias ArduinoQueue y LedControl, para el uso de la estructura colas y el control de las matrices de led, respectivamente.
 
 # Pinout de la placa utilizada
-![Arduino Uno Pinout](/assets/arduino_uno_pinout.png)
+![Arduino Uno Pinout](/assets/uno_pinout.png)
+
+# Pins utilizados:
+
+Motor 1: 
+IN1 2
+IN2 3
+ENA 5
+
+Motor 2:
+IN3 7
+IN4 8
+ENB 9
+
+Matriz de Leds:
+DIN 11 
+CLK 13 
+CS 10
+
+Pulsadores
+Escuchar ordenes A0 
+Avanzar          A1
+Retroceder       A2
+Giro Derecha     A3
+Giro Izquierda   A4
+Fin Ordenes      A5
