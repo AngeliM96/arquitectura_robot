@@ -16,7 +16,7 @@ void setup(){
 }
 
 void loop(){
-  VELOCIDAD = 100;    // valor de velocidad para PWM de ENA y ENB
+  VELOCIDAD = 2000;    // valor de velocidad para PWM de ENA y ENB
   
   aAvance(VELOCIDAD);   // funcion de avance del motor A
   bAvance(VELOCIDAD);   // funcion de avance del motor B
