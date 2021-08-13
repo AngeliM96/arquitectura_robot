@@ -22,24 +22,39 @@ Se están utilizando las librerias ArduinoQueue y LedControl, para el uso de la 
 # Pins utilizados:
 
 Motor 1: 
+
 IN1 2
+
 IN2 3
+
 ENA 5
 
 Motor 2:
+
 IN3 7
+
 IN4 8
+
 ENB 9
 
 Matriz de Leds:
+
 DIN 11 
+
 CLK 13 
+
 CS 10
 
 Pulsadores
+
 Escuchar ordenes A0 
+
 Avanzar          A1
+
 Retroceder       A2
+
 Giro Derecha     A3
+
 Giro Izquierda   A4
+
 Fin Ordenes      A5
