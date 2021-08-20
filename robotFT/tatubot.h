@@ -6,12 +6,12 @@
 #include <Arduino.h>
 
 // Motor 1
-#define IN1 2
-#define IN2 3
+#define IN1 3
+#define IN2 2
 #define ENA 5
 // Motor 2
-#define IN3 7
-#define IN4 8
+#define IN3 8
+#define IN4 7
 #define ENB 9
 // Matriz de Leds
 #define DIN 11 
