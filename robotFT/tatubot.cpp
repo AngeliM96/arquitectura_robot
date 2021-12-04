@@ -5,8 +5,8 @@
 
 Motor motor0(IN1, IN2, ENA);
 Motor motor1(IN4, IN3, ENB);
-Led led1(PIN_LEDR_A,PIN_LEDG_A,PIN_LEDB_A);
-Led led2(PIN_LEDR_B,PIN_LEDG_B,PIN_LEDB_B);
+Led led1(PIN_R_A,PIN_G_A,PIN_B_A);
+Led led2(PIN_R_B,PIN_G_B,PIN_B_B);
 ArduinoQueue<int> colaOrdenes(CANTIDAD_ORDENES);
 LedControl matrizLeds=LedControl(DIN,CLK,CS,MATRICES);
 
@@ -38,6 +38,8 @@ void Robot::avanzar(int velocidad) {
   Serial.print("Avanzando \n");
   delay(1000);
   pararRobot();
+  led1.rgb('a');
+  led2.rgb('a');
 }
 
 void Robot::retroceder(int velocidad) {
@@ -48,6 +50,8 @@ void Robot::retroceder(int velocidad) {
   Serial.print("Retrocediendo \n");
   delay(1000);
   pararRobot();
+  led1.rgb('a');
+  led2.rgb('a');
 }
 
 void Robot::girarDerecha(int velocidad) {
@@ -57,6 +61,7 @@ void Robot::girarDerecha(int velocidad) {
   Serial.print("Girando a la derecha \n");
   delay(1000);
   pararRobot();
+  led2.rgb('a');
 }
 
 void Robot::girarIzquierda(int velocidad) {
@@ -66,11 +71,14 @@ void Robot::girarIzquierda(int velocidad) {
   Serial.print("Girando a la izquierda \n");
   delay(1000);
   pararRobot();
-}
+  led1.rgb('a');
+  }
 
 void Robot::pararRobot() {
   motor0.parar();
   motor1.parar();
+  led1.rgb('a');
+  led2.rgb('a');
 }
 
 void Robot::escucharOrdenes() {
@@ -82,6 +90,8 @@ void Robot::escucharOrdenes() {
       led2.rgb('g');
       Serial.print("Orden para avanzar en cola \n");
       delay(500);
+      led1.rgb('a');
+      led2.rgb('a');
       dibujarCaritaFeliz();      
     }
     if (digitalRead(pinReversa) == LOW) {
@@ -91,6 +101,8 @@ void Robot::escucharOrdenes() {
       led2.rgb('r');
       Serial.print("Orden para retroceder en cola \n");
       delay(500);
+      led1.rgb('a');
+      led2.rgb('a');
       dibujarCaritaFeliz(); 
     }
     if (digitalRead(pinGiroDerecha) == LOW) {  
@@ -99,6 +111,7 @@ void Robot::escucharOrdenes() {
       led2.rgb('b');
       Serial.print("Orden para girar a la derecha en cola \n");
       delay(500);
+      led2.rgb('a');
       dibujarCaritaFeliz(); 
     }
     if (digitalRead(pinGiroIzquierda) == LOW) {    
@@ -107,6 +120,7 @@ void Robot::escucharOrdenes() {
       led1.rgb('b');
       Serial.print("Orden para girar a la izquierda en cola \n");
       delay(500);
+      led1.rgb('a');
       dibujarCaritaFeliz(); 
     }
   }
@@ -222,15 +236,9 @@ void Led::iniciar() {
   pinMode(ledR, OUTPUT);
   pinMode(ledG, OUTPUT);
   pinMode(ledB, OUTPUT);
-  this->apagar();
+  this->rgb('a');
 }
 
-void Led::apagar() {
-  pinMode(ledR, 0);
-  pinMode(ledG, 0);
-  pinMode(ledB, 0);
-  
-  }
 
 void Led::rgb(char color) {
   switch (color) {

@@ -26,13 +26,13 @@
 #define PIN_ORDEN_GIRO_DERECHA A4
 #define PIN_ORDEN_GIRO_IZQUIERDA A5
 //Led 1
-#define PIN_LEDR_A 30
-#define PIN_LEDG_A 31
-#define PIN_LEDB_A 32
+#define PIN_R_A 8
+#define PIN_G_A 9
+#define PIN_B_A 10
 //Led 2
-#define PIN_LEDR_B 33
-#define PIN_LEDG_B 34
-#define PIN_LEDB_B 35
+#define PIN_R_B 11
+#define PIN_G_B 12
+#define PIN_B_B 13
 
 
 #define CANTIDAD_ORDENES 10
@@ -48,8 +48,7 @@ class Led {
     Led(byte ledR, byte ledG, byte ledB);
     void iniciar();
     void rgb(char color);
-    void apagar();
-  };
+      };
 
 
 class Motor {
