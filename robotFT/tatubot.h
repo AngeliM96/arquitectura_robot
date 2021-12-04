@@ -6,17 +6,17 @@
 #include <Arduino.h>
 
 // Motor 1
-#define IN1 3 // 
-#define IN2 2
-#define ENA 5
+#define IN1 4 // 3 
+#define IN2 22 // 2
+#define ENA 5 // 5
 // Motor 2
-#define IN3 8
-#define IN4 7
-#define ENB 9
+#define IN3 6 // 8 
+#define IN4 23 // 7
+#define ENB 7 // 9
 // Matriz de Leds
-#define DIN 11 
-#define CLK 13 
-#define CS 10
+#define DIN 44 // 11 
+#define CLK 47 // 13 
+#define CS 45 // 10
 #define MATRICES 2
 // Pulsadores
 #define PIN_INICIO_ORDENES A0
