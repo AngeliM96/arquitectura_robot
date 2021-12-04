@@ -5,6 +5,8 @@
 
 Motor motor0(IN1, IN2, ENA);
 Motor motor1(IN4, IN3, ENB);
+Led led1(PIN_LEDR_A,PIN_LEDG_A,PIN_LEDB_A);
+Led led2(PIN_LEDR_B,PIN_LEDG_B,PIN_LEDB_B);
 ArduinoQueue<int> colaOrdenes(CANTIDAD_ORDENES);
 LedControl matrizLeds=LedControl(DIN,CLK,CS,MATRICES);
 
@@ -18,6 +20,8 @@ void Robot::iniciar() {
   Serial.begin(115200);
   motor0.iniciar();
   motor1.iniciar();
+  led1.iniciar();
+  led2.iniciar();
   matrizLeds.shutdown(0,false);     
   matrizLeds.setIntensity(0,4);    
   matrizLeds.clearDisplay(0);    
@@ -29,6 +33,8 @@ void Robot::iniciar() {
 void Robot::avanzar(int velocidad) {
   motor0.adelante(velocidad);
   motor1.adelante(velocidad);
+  led1.rgb('g');
+  led2.rgb('g');
   Serial.print("Avanzando \n");
   delay(1000);
   pararRobot();
@@ -37,6 +43,8 @@ void Robot::avanzar(int velocidad) {
 void Robot::retroceder(int velocidad) {
   motor0.atras(velocidad);
   motor1.atras(velocidad);
+  led1.rgb('r');
+  led2.rgb('r');
   Serial.print("Retrocediendo \n");
   delay(1000);
   pararRobot();
@@ -45,6 +53,7 @@ void Robot::retroceder(int velocidad) {
 void Robot::girarDerecha(int velocidad) {
   motor0.parar();
   motor1.adelante(velocidad);
+  led2.rgb('b');
   Serial.print("Girando a la derecha \n");
   delay(1000);
   pararRobot();
@@ -53,6 +62,7 @@ void Robot::girarDerecha(int velocidad) {
 void Robot::girarIzquierda(int velocidad) {
   motor0.adelante(velocidad);
   motor1.parar();
+  led1.rgb('b');
   Serial.print("Girando a la izquierda \n");
   delay(1000);
   pararRobot();
@@ -68,6 +78,8 @@ void Robot::escucharOrdenes() {
     if (digitalRead(pinAvanzar) == LOW) {
       dibujarCaritaSorprendida();          
       colaOrdenes.enqueue(1);
+      led1.rgb('g');
+      led2.rgb('g');
       Serial.print("Orden para avanzar en cola \n");
       delay(500);
       dibujarCaritaFeliz();      
@@ -75,6 +87,8 @@ void Robot::escucharOrdenes() {
     if (digitalRead(pinReversa) == LOW) {
       dibujarCaritaSorprendida();           
       colaOrdenes.enqueue(2);
+      led1.rgb('r');
+      led2.rgb('r');
       Serial.print("Orden para retroceder en cola \n");
       delay(500);
       dibujarCaritaFeliz(); 
@@ -82,6 +96,7 @@ void Robot::escucharOrdenes() {
     if (digitalRead(pinGiroDerecha) == LOW) {  
       dibujarCaritaSorprendida();         
       colaOrdenes.enqueue(3);
+      led2.rgb('b');
       Serial.print("Orden para girar a la derecha en cola \n");
       delay(500);
       dibujarCaritaFeliz(); 
@@ -89,6 +104,7 @@ void Robot::escucharOrdenes() {
     if (digitalRead(pinGiroIzquierda) == LOW) {    
       dibujarCaritaSorprendida();       
       colaOrdenes.enqueue(4);
+      led1.rgb('b');
       Serial.print("Orden para girar a la izquierda en cola \n");
       delay(500);
       dibujarCaritaFeliz(); 
@@ -143,6 +159,7 @@ void Robot::dibujarCarita(byte ojos[8], byte boca[8]) {
   }
 }
 
+
 void Robot::dibujarCaritaFeliz() { dibujarCarita(felizOjos,  felizBoca); }
 void Robot::dibujarCaritaSorprendida() { dibujarCarita(sorprendidoOjos,  sorprendidoBoca); }
 void Robot::dibujarCaritaEntusiasmada() { dibujarCarita(entusiasmadoOjos,  entusiasmadoBoca); }
@@ -185,10 +202,62 @@ void Motor::adelante(int velocidad) {
 
 void Motor::atras(int velocidad) {
   analogWrite(pinVelocidad, velocidad);
-  digitalWrite(pinAdelante, HIGH);
-  digitalWrite(pinAtras, LOW);
+  digitalWrite(pinAdelante, LOW);
+  digitalWrite(pinAtras, HIGH);
 }
 
 void Motor::parar() {
   analogWrite(pinVelocidad, 0);
+}
+
+
+//-------------------------------------------------------
+Led::Led(byte ledR, byte ledG, byte ledB) {
+  this->ledR = ledR;
+  this->ledG = ledG;
+  this->ledB = ledB;
+}
+
+void Led::iniciar() {
+  pinMode(ledR, OUTPUT);
+  pinMode(ledG, OUTPUT);
+  pinMode(ledB, OUTPUT);
+  this->apagar();
+}
+
+void Led::apagar() {
+  pinMode(ledR, 0);
+  pinMode(ledG, 0);
+  pinMode(ledB, 0);
+  
+  }
+
+void Led::rgb(char color) {
+  switch (color) {
+    case 'r': //red
+      digitalWrite(ledR, LOW);
+      digitalWrite(ledG, HIGH);
+      digitalWrite(ledB, HIGH);
+      break;
+    case 'g': //green
+      digitalWrite(ledR, HIGH);
+      digitalWrite(ledG, LOW);
+      digitalWrite(ledB, HIGH);
+      break;
+    case 'y': //yellow
+      digitalWrite(ledR, LOW);
+      digitalWrite(ledG, LOW);
+      digitalWrite(ledB, HIGH);
+      break;
+    case 'b': //blue
+      digitalWrite(ledR, HIGH);
+      digitalWrite(ledG, HIGH);
+      digitalWrite(ledB, LOW);
+      break;
+    case 'a': //apagado
+      digitalWrite(ledR, HIGH);
+      digitalWrite(ledG, HIGH);
+      digitalWrite(ledB, HIGH);
+      break;
+  }
 }

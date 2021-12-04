@@ -25,10 +25,32 @@
 #define PIN_ORDEN_REVERSA A3
 #define PIN_ORDEN_GIRO_DERECHA A4
 #define PIN_ORDEN_GIRO_IZQUIERDA A5
+//Led 1
+#define PIN_LEDR_A 30
+#define PIN_LEDG_A 31
+#define PIN_LEDB_A 32
+//Led 2
+#define PIN_LEDR_B 33
+#define PIN_LEDG_B 34
+#define PIN_LEDB_B 35
 
 
 #define CANTIDAD_ORDENES 10
 #define VELOCIDAD_MOTOR 2000
+
+class Led {
+  private:
+    byte ledR;
+    byte ledG;
+    byte ledB;
+
+   public:
+    Led(byte ledR, byte ledG, byte ledB);
+    void iniciar();
+    void rgb(char color);
+    void apagar();
+  };
+
 
 class Motor {
   private:
@@ -55,6 +77,7 @@ class Robot {
     byte pinGiroDerecha = PIN_ORDEN_GIRO_DERECHA;
     byte pinGiroIzquierda = PIN_ORDEN_GIRO_IZQUIERDA;
     byte pinFinOrdenes = PIN_FIN_ORDENES;
+
     
     void iniciar();
     void avanzar(int velocidad);
