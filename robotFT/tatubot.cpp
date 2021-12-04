@@ -174,19 +174,19 @@ void Robot::dibujarCarita(byte ojos[8], byte boca[8]) {
 }
 
 
-void Robot::dibujarCaritaFeliz() { dibujarCarita(felizOjos,  felizBoca); }
-void Robot::dibujarCaritaSorprendida() { dibujarCarita(sorprendidoOjos,  sorprendidoBoca); }
-void Robot::dibujarCaritaEntusiasmada() { dibujarCarita(entusiasmadoOjos,  entusiasmadoBoca); }
-void Robot::dibujarCaritaTriste() { dibujarCarita(tristeOjos,  tristeBoca); }
-void Robot::dibujarCaritaEnojada() { dibujarCarita(enojadoOjos,  enojadoBoca); }
+void Robot::dibujarCaritaFeliz() { dibujarCarita(ojoFeliz,  ojoFeliz); }
+void Robot::dibujarCaritaSorprendida() { dibujarCarita(ojoDefault,  ojoDefault); }
+void Robot::dibujarCaritaEntusiasmada() { dibujarCarita(ojoCorazon,  ojoCorazon); }
+void Robot::dibujarCaritaTriste() { dibujarCarita(ojoCerrado,  ojoCerrado); }
+void Robot::dibujarCaritaEnojada() { dibujarCarita(ojoEnojadoIzq,  ojoEnojadoDer); }
 void Robot::despertar() {
-  dibujarCarita(cerradosOjos,  cerradosBoca);
+  dibujarCarita(ojoCerrado,  ojoCerrado);
   delay(300);
-  dibujarCarita(felizOjos,  cerradosBoca);
+  dibujarCarita(ojoDefault,  ojoDefault);
   delay(500);
-  dibujarCarita(cerradosOjos,  cerradosBoca);
+  dibujarCarita(ojoCerrado,  ojoCerrado);
   delay(300);
-  dibujarCarita(felizOjos,  cerradosBoca);
+  dibujarCarita(ojoFeliz,  ojoFeliz);
   delay(500);
   dibujarCaritaEntusiasmada();
   delay(500);

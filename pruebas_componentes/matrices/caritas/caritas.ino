@@ -1,5 +1,5 @@
 #include "LedControl.h"     
-LedControl lc=LedControl(11,13,10,2);
+LedControl lc=LedControl(44,47,45,2);
 
 byte felizOjos[8]= {       
   B00000000,       
@@ -122,15 +122,15 @@ void setup() {
 }
 
 void loop(){
-  dibujarCarita(felizOjos, felizBoca);    
+  dibujarCarita(felizOjos, felizOjos);    
   delay(1000);
-  dibujarCarita(entusiasmadoOjos,  entusiasmadoBoca);    
+  dibujarCarita(entusiasmadoOjos,  felizOjos);    
   delay(1000);
-  dibujarCarita(enojadoOjos, enojadoBoca);    
+  dibujarCarita(enojadoOjos, felizOjos);    
   delay(1000);
-  dibujarCarita(sorprendidoOjos, sorprendidoBoca);
+  dibujarCarita(sorprendidoOjos, felizOjos);
   delay(1000);
-  dibujarCarita(tristeOjos, tristeBoca);
+  dibujarCarita(tristeOjos, felizOjos);
   delay(1000);
 }
 
