@@ -6,7 +6,7 @@
 #include <Arduino.h>
 
 // Motor 1
-#define IN1 3
+#define IN1 3 // 
 #define IN2 2
 #define ENA 5
 // Motor 2
