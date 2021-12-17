@@ -36,7 +36,7 @@ void Robot::avanzar(int velocidad) {
   led1.rgb('g');
   led2.rgb('g');
   Serial.print("Avanzando \n");
-  delay(1000);
+  delay(1800);
   pararRobot();
   led1.rgb('a');
   led2.rgb('a');
@@ -48,7 +48,7 @@ void Robot::retroceder(int velocidad) {
   led1.rgb('r');
   led2.rgb('r');
   Serial.print("Retrocediendo \n");
-  delay(1000);
+  delay(1600);
   pararRobot();
   led1.rgb('a');
   led2.rgb('a');
@@ -59,7 +59,7 @@ void Robot::girarDerecha(int velocidad) {
   motor1.adelante(velocidad);
   led2.rgb('b');
   Serial.print("Girando a la derecha \n");
-  delay(1000);
+  delay(3000);
   pararRobot();
   led2.rgb('a');
 }
@@ -69,7 +69,7 @@ void Robot::girarIzquierda(int velocidad) {
   motor1.parar();
   led1.rgb('b');
   Serial.print("Girando a la izquierda \n");
-  delay(1000);
+  delay(3000);
   pararRobot();
   led1.rgb('a');
   }
@@ -124,8 +124,8 @@ void Robot::escucharOrdenes() {
       dibujarCaritaFeliz(); 
     }
   }
-  if(colaOrdenes.itemCount() < CANTIDAD_ORDENES) {
-    Serial.print("Se enoja por cancelar antes de las 10 ordenes");
+  if(colaOrdenes.itemCount() < 3) {
+    Serial.print("Se enoja por cancelar antes de las 3 ordenes");
     dibujarCaritaEnojada();
     delay(500);
   }
@@ -136,9 +136,11 @@ void Robot::escucharOrdenes() {
 
 void Robot::ejecutarTodasLasOrdenes() {
   int cantidadOrdenes = colaOrdenes.itemCount();
+  
   for(int i=0; i<cantidadOrdenes; i++) {
     Serial.print(colaOrdenes.itemCount());
     dibujarCaritaEntusiasmada();
+    
     ejecutarOrden(colaOrdenes.dequeue());
     dibujarCaritaFeliz();
     delay(1000);
@@ -176,9 +178,10 @@ void Robot::dibujarCarita(byte ojos[8], byte boca[8]) {
 
 void Robot::dibujarCaritaFeliz() { dibujarCarita(ojoFeliz,  ojoFeliz); }
 void Robot::dibujarCaritaSorprendida() { dibujarCarita(ojoDefault,  ojoDefault); }
-void Robot::dibujarCaritaEntusiasmada() { dibujarCarita(ojoCorazon,  ojoCorazon); }
+void Robot::dibujarCaritaEntusiasmada() { dibujarCarita(ojoCorazonCabeza,  ojoCorazonCabeza); }
 void Robot::dibujarCaritaTriste() { dibujarCarita(ojoCerrado,  ojoCerrado); }
-void Robot::dibujarCaritaEnojada() { dibujarCarita(ojoEnojadoIzq,  ojoEnojadoDer); }
+void Robot::dibujarCaritaEnojada() { dibujarCarita(ojoEnojadoIzqCabeza,  ojoEnojadoDerCabeza); }
+void Robot::dibujarCaritaGuiniando() { dibujarCarita(ojoFeliz,  ojoCerrado); }
 void Robot::despertar() {
   dibujarCarita(ojoCerrado,  ojoCerrado);
   delay(300);
@@ -187,9 +190,9 @@ void Robot::despertar() {
   dibujarCarita(ojoCerrado,  ojoCerrado);
   delay(300);
   dibujarCarita(ojoFeliz,  ojoFeliz);
-  delay(500);
-  dibujarCaritaEntusiasmada();
-  delay(500);
+  delay(1000);
+  dibujarCaritaGuiniando();
+  delay(250);
   dibujarCaritaFeliz();
   delay(500);
 }

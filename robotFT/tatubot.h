@@ -23,8 +23,8 @@
 #define PIN_FIN_ORDENES A1
 #define PIN_ORDEN_AVANZAR A2
 #define PIN_ORDEN_REVERSA A3
-#define PIN_ORDEN_GIRO_DERECHA A4
-#define PIN_ORDEN_GIRO_IZQUIERDA A5
+#define PIN_ORDEN_GIRO_DERECHA A5
+#define PIN_ORDEN_GIRO_IZQUIERDA A4
 //Led 1
 #define PIN_R_A 8
 #define PIN_G_A 9
@@ -36,7 +36,7 @@
 
 
 #define CANTIDAD_ORDENES 10
-#define VELOCIDAD_MOTOR 2000
+#define VELOCIDAD_MOTOR 4000
 
 class Led {
   private:
@@ -91,6 +91,7 @@ class Robot {
     void dibujarCaritaFeliz();
     void dibujarCaritaSorprendida();
     void dibujarCaritaEntusiasmada();
+    void dibujarCaritaGuiniando();
     void dibujarCaritaTriste();
     void dibujarCaritaEnojada();
     void despertar();
